@@ -1,3 +1,5 @@
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 (defconst +home-dir+ "~")
 (defconst +emacs-dir+ (concat +home-dir+ "/emacs"))
@@ -6,6 +8,9 @@
 (defconst +emacs-conf-dir+ (concat +emacs-dir+ "/config"))
 (defconst +emacs-tmp-dir+ (concat +emacs-dir+ "/tmp"))
 (defconst +emacs-snippets-dir+ (concat +emacs-dir+ "/snippets"))
+
+(require 'evil)
+(evil-mode 1)
 
 ;; new projects will be created under this directory
 (defconst +dev-dir+ (concat +home-dir+ "/dev"))
@@ -59,3 +64,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+
