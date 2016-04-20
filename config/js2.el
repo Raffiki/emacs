@@ -7,9 +7,9 @@
 
 (custom-set-variables '(js2-strict-inconsistent-return-warning nil))
 (custom-set-variables '(js2-strict-missing-semi-warning nil))
-(custom-set-variables  
-   '(js2-basic-offset 2)  
-    '(js2-bounce-indent-p t)  
+(custom-set-variables
+   '(js2-basic-offset 2)
+    '(js2-bounce-indent-p t)
     )
 
 (setq js-indent-level 2)
@@ -29,6 +29,20 @@
                                    (tern-ac-setup)))
 
 (require 'flycheck)
-(add-hook 'after-init-hook #'global-flycheck-mode)
-(add-hook 'js2-mode-hook '(lambda () (flycheck-select-checker 'javascript-standard)))
+
+(defun my/use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (file-executable-p eslint)
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+
+;(add-hook 'after-init-hook #'global-flycheck-mode)
+(add-hook 'js2-mode-hook 'flycheck-mode)
+;(add-hook 'js2-mode-hook '(lambda () (flycheck-select-checker 'javascript-standard)))
+;;(add-hook 'js2-mode-hook '(lambda () (flycheck-select-checker 'javascript-eslint )))
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 ;(flycheck-select-checker 'javascript-standard)
